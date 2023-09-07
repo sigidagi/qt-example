@@ -1,0 +1,68 @@
+{
+    "version": 3,
+    "cmakeMinimumRequired": {
+        "major": 3,
+        "minor": 19
+    },
+    "configurePresets": [
+        {
+            "name": "default",
+            "hidden": true,
+            "generator": "Ninja",
+            "binaryDir": "${sourceDir}/build/default",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Release"
+            },
+            "environment": {
+                "CMAKE_PREFIX_PATH": "/opt/qt/5.15.2/gcc_64/lib/cmake"
+            }
+        },
+        {
+            "name": "zig-default",
+            "hidden": true,
+            "generator": "Ninja",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Release",
+                "CMAKE_TOOLCHAIN_FILE": "${sourceDir}/cmake/zig-toolchain.cmake"
+            },
+            "environment": {
+                "CMAKE_PREFIX_PATH": "/opt/qt/5.15.2/gcc_64/lib/cmake"
+            }
+        },
+        {
+            "name": "qt-linux",
+            "inherits": "default"
+        },
+        {
+            "name": "x86_64-linux-gnu",
+            "inherits": "zig-default",
+            "binaryDir": "${sourceDir}/build/linux",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Release",
+                "CPU_ARCH": "x86_64",
+                "MACHINE": "linux",
+                "CLIB": "gnu"
+            }
+        },
+        {
+            "name": "aarch64-macos-none",
+            "inherits": "zig-default",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Release",
+                "CPU_ARCH": "aarch64",
+                "MACHINE": "macos",
+                "CLIB": "none"
+            }
+        },
+        {
+            "name": "aarch64-linux-musl",
+            "inherits": "zig-default",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Debug",
+                "CPU_ARCH": "aarch64",
+                "MACHINE": "linux",
+                "CLIB": "musl"
+            }
+        }
+    ]
+}
