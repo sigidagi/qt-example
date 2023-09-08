@@ -21,13 +21,18 @@ set(CMAKE_AUTORCC ON)
 # Add a compiler flag
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall")
 
+message(STATUS "System name: ${CMAKE_SYSTEM_NAME}")
+
 # Make this a GUI application on Windows
 if(WIN32)
   set(CMAKE_WIN32_EXECUTABLE ON)
 endif()
 
+message(STATUS "cmake_system_name: ${CMAKE_SYSTEM_NAME}")
+
 # Find the QtWidgets library
 find_package(Qt5 REQUIRED COMPONENTS Widgets)
+
 
 # Tell CMake to create the helloworld executable
 add_executable(helloworld 
@@ -36,6 +41,17 @@ add_executable(helloworld
     src/mainwindow.ui 
     resources.qrc
     )
+
+if(IOS)
+    target_link_options(helloworld PRIVATE "-Wl,-e,_qt_main_wrapper")
+    message(STATUS "ios - needed extra target options")
+endif()
+
+# Library not found: MobileCoreServices
+#
+# https://bugreports.qt.io/browse/QTCREATORBUG-26121
+
+
 
 # Add the Qt5 Widgets for linking
 target_link_libraries(helloworld Qt5::Widgets)
