@@ -11,7 +11,8 @@
             "generator": "Ninja",
             "binaryDir": "${sourceDir}/build/gcc",
             "cacheVariables": {
-                "CMAKE_BUILD_TYPE": "Release"
+                "CMAKE_BUILD_TYPE": "Release",
+                "CMAKE_FIND_ROOT_PATH": "/opt/qt/5.15.2/gcc_64"
             },
             "environment": {
                 "CMAKE_PREFIX_PATH": "/opt/qt/5.15.8/gcc_64/lib/cmake"
@@ -23,7 +24,9 @@
             "generator": "Ninja",
             "binaryDir": "${sourceDir}/build/mac",
             "cacheVariables": {
-                "CMAKE_BUILD_TYPE": "Release"
+                "IOS": "TRUE",
+                "CMAKE_BUILD_TYPE": "Release",
+                "CMAKE_FIND_ROOT_PATH": "/opt/qt/5.15.2/clang_64"
             },
             "environment": {
                 "CMAKE_PREFIX_PATH": "/opt/qt/5.15.2/clang_64/lib/cmake"
@@ -56,8 +59,6 @@
             "name": "x86_64-macos-none-darwin",
             "inherits": "mac-default",
             "cacheVariables": {
-                "IOS": "TRUE",
-                "CMAKE_FIND_ROOT_PATH": "/opt/qt/5.15.2",
                 "CMAKE_OSX_ARCHITECTURES": "x86_64",
                 "CMAKE_TOOLCHAIN_FILE": "${sourceDir}/cmake/mac-toolchain.cmake"
             }

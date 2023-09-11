@@ -1,6 +1,11 @@
 cmake_minimum_required(VERSION 3.8.2)
 
 project(helloworld)
+project(${PROJECT_NAME} VERSION 0.1.1)
+
+set(PROJECT_VERSION_TWEAK "beta-sd")
+message(STATUS "Project version ${PROJECT_VERSION}")
+
 
 # Find includes in the build directories
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
@@ -10,48 +15,32 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTORCC ON)
 
-# There may be a way to tell up front if Qt5 is going to be found, but I haven't found
-# a foolproof way to do it yet, so settle for the default error message for now.
-#if(NOT CMAKE_PREFIX_PATH AND NOT Qt5Widgets_DIR)
-#    message(WARNING "CMAKE_PREFIX_PATH is not defined, so find_package may not work. Set the CMAKE_PREFIX_PATH "
-#            "environment variable to the install prefix of Qt 5, either on the command line as "
-#            "-DCMAKE_PREFIX_PATH=\"path/to/Qt5/lib/cmake\" or with set(CMAKE_PREFIX_PATH path/to/Qt5/lib/cmake)")
-#endif(NOT CMAKE_PREFIX_PATH AND NOT Qt5Widgets_DIR)
-
 # Add a compiler flag
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall")
-
 message(STATUS "System name: ${CMAKE_SYSTEM_NAME}")
-
-# Make this a GUI application on Windows
-if(WIN32)
-  set(CMAKE_WIN32_EXECUTABLE ON)
-endif()
-
-message(STATUS "cmake_system_name: ${CMAKE_SYSTEM_NAME}")
 
 # Find the QtWidgets library
 find_package(Qt5 REQUIRED COMPONENTS Widgets)
 
+if(IOS) 
+    set(CMAKE_XCODE_ATTRIBUTE_FRAMEWORK_SEARCH_PATHS "${CMAKE_FIND_ROOT_PATH}/lib")
+    set(IOS_INCLUDE_PATH ${CMAKE_FIND_ROOT_PATH}/lib)
+    include_directories(${IOS_INCLUDE_PATH})
+    message(STATUS  "mac include dirs: ${IOS_INCLUDE_PATH}")
+endif()
+
 
 # Tell CMake to create the helloworld executable
-add_executable(helloworld 
+add_executable(${PROJECT_NAME}
     src/main.cpp
     src/mainwindow.cpp
     src/mainwindow.ui 
     resources.qrc
     )
 
-if(IOS)
-    target_link_options(helloworld PRIVATE "-Wl,-e,_qt_main_wrapper")
-    message(STATUS "ios - needed extra target options")
-endif()
-
-# Library not found: MobileCoreServices
-#
-# https://bugreports.qt.io/browse/QTCREATORBUG-26121
-
-
-
 # Add the Qt5 Widgets for linking
-target_link_libraries(helloworld Qt5::Widgets)
+target_link_libraries(${PROJECT_NAME} Qt5::Widgets)
+if(IOS) 
+    #target_link_options(helloworld PRIVATE "-Wl,-e,_qt_main_wrapper")
+    set_target_properties(${PROJECT_NAME} PROPERTIES LINK_FLAGS "-Wl,-F/System/Library/Frameworks")
+endif()
