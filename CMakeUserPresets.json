@@ -6,38 +6,54 @@
     },
     "configurePresets": [
         {
-            "name": "gcc-default",
+            "name": "default",
+            "binaryDir": "${sourceDir}/build/default",
             "hidden": true,
             "generator": "Ninja",
-            "binaryDir": "${sourceDir}/build/gcc",
             "cacheVariables": {
-                "CMAKE_BUILD_TYPE": "Release",
-                "CMAKE_FIND_ROOT_PATH": "/opt/qt/5.15.2/gcc_64"
-            },
-            "environment": {
-                "CMAKE_PREFIX_PATH": "/opt/qt/5.15.8/gcc_64/lib/cmake"
+                "CMAKE_BUILD_TYPE": "Release"
             }
         },
         {
-            "name": "mac-default",
+            "name": "qt-default",
+            "inherits": "default",
             "hidden": true,
-            "generator": "Ninja",
-            "binaryDir": "${sourceDir}/build/mac",
+            "cacheVariables": {
+                "QT_USE": "TRUE",
+                "QT_VERSION_MAJOR": "5"
+            },
+            "environment": {
+                "QT_DIR": "$env{Qt5_DIR}"
+            }
+        },
+        {
+            "name": "linux-qt-default",
+            "inherits": "qt-default",
+            "hidden": true,
+            "cacheVariables": {
+                "CMAKE_FIND_ROOT_PATH": "$env{QT_DIR}/gcc_64"
+            },
+            "environment": {
+                "CMAKE_PREFIX_PATH": "$env{QT_DIR}/gcc_64/lib/cmake"
+            }
+        },
+        {
+            "name": "mac-qt-default",
+            "inherits": "qt-default",
+            "hidden": true,
             "cacheVariables": {
                 "IOS": "TRUE",
-                "CMAKE_BUILD_TYPE": "Release",
-                "CMAKE_FIND_ROOT_PATH": "/opt/qt/5.15.2/clang_64"
+                "CMAKE_FIND_ROOT_PATH": "$env{QT_DIR}/clang_64"
             },
             "environment": {
-                "CMAKE_PREFIX_PATH": "/opt/qt/5.15.2/clang_64/lib/cmake"
+                "CMAKE_PREFIX_PATH": "$env{QT_DIR}/clang_64/lib/cmake"
             }
         },
         {
-            "name": "x86_64-linux-gnu-zig",
-            "inherits": "gcc-default",
+            "name": "x86_64-linux-qt-zig",
+            "inherits": "linux-qt-default",
             "binaryDir": "${sourceDir}/build/linux",
             "cacheVariables": {
-                "CMAKE_BUILD_TYPE": "Release",
                 "CPU_ARCH": "x86_64",
                 "MACHINE": "linux",
                 "CLIB": "gnu",
@@ -45,10 +61,10 @@
             }
         },
         {
-            "name": "x86_64-macos-none-zig",
-            "inherits": "mac-default",
+            "name": "x86_64-macos-qt-zig",
+            "inherits": "mac-qt-default",
+            "binaryDir": "${sourceDir}/build/mac-qt-zig",
             "cacheVariables": {
-                "CMAKE_BUILD_TYPE": "Release",
                 "CPU_ARCH": "x86_64",
                 "MACHINE": "macos",
                 "CLIB": "none",
@@ -56,16 +72,29 @@
             }
         },
         {
-            "name": "x86_64-macos-none-darwin",
-            "inherits": "mac-default",
+            "name": "x86_64-macos-qt-darwin",
+            "inherits": "mac-qt-default",
+            "binaryDir": "${sourceDir}/build/mac-qt-darwin",
             "cacheVariables": {
                 "CMAKE_OSX_ARCHITECTURES": "x86_64",
                 "CMAKE_TOOLCHAIN_FILE": "${sourceDir}/cmake/mac-toolchain.cmake"
             }
         },
         {
+            "name": "x86_64-macos-none-zig",
+            "inherits": "default",
+            "binaryDir": "${sourceDir}/build/mac-none-zig",
+            "cacheVariables": {
+                "CPU_ARCH": "x86_64",
+                "MACHINE": "macos",
+                "CLIB": "none",
+                "CMAKE_TOOLCHAIN_FILE": "${sourceDir}/cmake/zig-toolchain.cmake"
+            }
+        },
+        {
             "name": "aarch64-linux-musl-zig",
-            "inherits": "gcc-default",
+            "inherits": "default",
+            "binaryDir": "${sourceDir}/build/musl-zig",
             "cacheVariables": {
                 "CMAKE_BUILD_TYPE": "Debug",
                 "CPU_ARCH": "aarch64",
