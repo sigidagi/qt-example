@@ -6,6 +6,7 @@ project(${PROJECT_NAME} VERSION 0.1.1)
 set(PROJECT_VERSION_TWEAK "beta-sd")
 message(STATUS "Project version ${PROJECT_VERSION}")
 
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 # Find includes in the build directories
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 

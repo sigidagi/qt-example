@@ -2,8 +2,18 @@
 #set(MACHINE "linux" CACHE STRING "system machine name")
 #set(CLIB "gnu" CACHE STRING "c library")
 
-set(CMAKE_SYSTEM_NAME "Linux")
-set(CMAKE_SYSTEM_VERSION 1)
+#if(CMAKE_SYSTEM_NAME MATCHES "Darwin")
+    #message("Zig toolchain for Darwin (MacOS) target")
+    ## adjust the default behavior of the FIND_XXX() commands:
+    ## search programs in the host environment
+    #set(CMAKE_FIND_ROOT_PATH_MODE_PROGRAM NEVER)
+    ## search headers and libraries in the target environment
+    #set(CMAKE_FIND_ROOT_PATH_MODE_LIBRARY ONLY)
+    #set(CMAKE_FIND_ROOT_PATH_MODE_INCLUDE ONLY)
+#endif()
+
+
+
 set(CMAKE_SYSTEM_PROCESSOR ${CPU_ARCH})
 set(BIN ${CMAKE_SOURCE_DIR}/bin)
 
@@ -31,7 +41,6 @@ if(NOT ZIG_EXE)
     message(STATUS "zig source: ${zig_SOURCE_DIR}")
     
     #file(MAKE_DIRECTORY ${BIN})
-
     file(COPY ${zig_SOURCE_DIR}/zig DESTINATION ${BIN})
     file(COPY ${zig_SOURCE_DIR}/lib DESTINATION ${BIN})
     file(COPY ${zig_SOURCE_DIR}/doc DESTINATION ${BIN})
@@ -54,6 +63,5 @@ else()
     set(CMAKE_CXX_COMPILER "${BIN}/zig-c++" -target ${CPU_ARCH}-${MACHINE})
 endif(CLIB)
 
-#set(CMAKE_AR "${CMAKE_CURRENT_LIST_DIR}/zig-ar")
 set(CMAKE_AR "${BIN}/zig-ar")
 set(CMAKE_RANLIB "${BIN}/zig-ranlib")

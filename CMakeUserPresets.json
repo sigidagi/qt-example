@@ -15,6 +15,31 @@
             }
         },
         {
+            "name": "mac-default",
+            "inherits": "default",
+            "binaryDir": "${sourceDir}/build/mac-default",
+            "cacheVariables": {
+                "CMAKE_SYSTEM_NAME": "Darwin", 
+                "CMAKE_SYSTEM_VERSION": "11.3", 
+                "CMAKE_OSX_SYSROOT": "$env{HOME}/dev/lenticular/macos/osxcross/target/SDK/MacOSX11.3.sdk",
+                "CPU_ARCH": "x86_64",
+                "MACHINE": "macos",
+                "CLIB": "none",
+                "CMAKE_TOOLCHAIN_FILE": "${sourceDir}/cmake/zig-toolchain.cmake"
+            }
+        },
+        {
+            "name": "linux-default",
+            "inherits": "default",
+            "binaryDir": "${sourceDir}/build/linux-default",
+            "cacheVariables": {
+                "CPU_ARCH": "x86_64",
+                "MACHINE": "linux",
+                "CLIB": "gnu",
+                "CMAKE_TOOLCHAIN_FILE": "${sourceDir}/cmake/zig-toolchain.cmake"
+            }
+        },
+        {
             "name": "qt-default",
             "inherits": "default",
             "hidden": true,
@@ -31,7 +56,8 @@
             "inherits": "qt-default",
             "hidden": true,
             "cacheVariables": {
-                "CMAKE_FIND_ROOT_PATH": "$env{QT_DIR}/gcc_64"
+                "CMAKE_FIND_ROOT_PATH": "$env{QT_DIR}/gcc_64",
+                "CMAKE_SYSTEM_NAME": "Linux"
             },
             "environment": {
                 "CMAKE_PREFIX_PATH": "$env{QT_DIR}/gcc_64/lib/cmake"
@@ -42,17 +68,30 @@
             "inherits": "qt-default",
             "hidden": true,
             "cacheVariables": {
-                "IOS": "TRUE",
+                "CMAKE_SYSTEM_NAME": "Darwin",
+                "CMAKE_SYSTEMN_VERSION": "11.3",
+                "CMAKE_OSX_SYSROOT": "$env{HOME}/dev/lenticular/macos/osxcross/target/SDK/MacOSX11.3.sdk",
                 "CMAKE_FIND_ROOT_PATH": "$env{QT_DIR}/clang_64"
             },
             "environment": {
-                "CMAKE_PREFIX_PATH": "$env{QT_DIR}/clang_64/lib/cmake"
+                "CMAKE_PREFIX_PATH": "$env{QT_DIR}/clang_64"
             }
         },
         {
             "name": "x86_64-linux-qt-zig",
             "inherits": "linux-qt-default",
             "binaryDir": "${sourceDir}/build/linux",
+            "cacheVariables": {
+                "CPU_ARCH": "x86_64",
+                "MACHINE": "linux",
+                "CLIB": "gnu",
+                "CMAKE_TOOLCHAIN_FILE": "${sourceDir}/cmake/zig-toolchain.cmake"
+            }
+        },
+        {
+            "name": "x86_64-linux-none-zig",
+            "inherits": "default",
+            "binaryDir": "${sourceDir}/build/linux-none",
             "cacheVariables": {
                 "CPU_ARCH": "x86_64",
                 "MACHINE": "linux",
@@ -78,17 +117,6 @@
             "cacheVariables": {
                 "CMAKE_OSX_ARCHITECTURES": "x86_64",
                 "CMAKE_TOOLCHAIN_FILE": "${sourceDir}/cmake/mac-toolchain.cmake"
-            }
-        },
-        {
-            "name": "x86_64-macos-none-zig",
-            "inherits": "default",
-            "binaryDir": "${sourceDir}/build/mac-none-zig",
-            "cacheVariables": {
-                "CPU_ARCH": "x86_64",
-                "MACHINE": "macos",
-                "CLIB": "none",
-                "CMAKE_TOOLCHAIN_FILE": "${sourceDir}/cmake/zig-toolchain.cmake"
             }
         },
         {
