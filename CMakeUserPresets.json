@@ -69,18 +69,17 @@
             "hidden": true,
             "cacheVariables": {
                 "CMAKE_SYSTEM_NAME": "Darwin",
-                "CMAKE_SYSTEMN_VERSION": "11.3",
                 "CMAKE_OSX_SYSROOT": "$env{HOME}/dev/lenticular/macos/osxcross/target/SDK/MacOSX11.3.sdk",
                 "CMAKE_FIND_ROOT_PATH": "$env{QT_DIR}/clang_64"
             },
             "environment": {
-                "CMAKE_PREFIX_PATH": "$env{QT_DIR}/clang_64"
+                "CMAKE_PREFIX_PATH": "$env{QT_DIR}/clang_64/lib/cmake"
             }
         },
         {
             "name": "x86_64-linux-qt-zig",
             "inherits": "linux-qt-default",
-            "binaryDir": "${sourceDir}/build/linux",
+            "binaryDir": "${sourceDir}/build/linux-qt-zig",
             "cacheVariables": {
                 "CPU_ARCH": "x86_64",
                 "MACHINE": "linux",
@@ -91,7 +90,7 @@
         {
             "name": "x86_64-linux-none-zig",
             "inherits": "default",
-            "binaryDir": "${sourceDir}/build/linux-none",
+            "binaryDir": "${sourceDir}/build/linux-none-zig",
             "cacheVariables": {
                 "CPU_ARCH": "x86_64",
                 "MACHINE": "linux",

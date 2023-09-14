@@ -1,18 +1,3 @@
-#set(CPU_ARCH "aarch64" CACHE STRING "cpu architecture")
-#set(MACHINE "linux" CACHE STRING "system machine name")
-#set(CLIB "gnu" CACHE STRING "c library")
-
-#if(CMAKE_SYSTEM_NAME MATCHES "Darwin")
-    #message("Zig toolchain for Darwin (MacOS) target")
-    ## adjust the default behavior of the FIND_XXX() commands:
-    ## search programs in the host environment
-    #set(CMAKE_FIND_ROOT_PATH_MODE_PROGRAM NEVER)
-    ## search headers and libraries in the target environment
-    #set(CMAKE_FIND_ROOT_PATH_MODE_LIBRARY ONLY)
-    #set(CMAKE_FIND_ROOT_PATH_MODE_INCLUDE ONLY)
-#endif()
-
-
 
 set(CMAKE_SYSTEM_PROCESSOR ${CPU_ARCH})
 set(BIN ${CMAKE_SOURCE_DIR}/bin)
